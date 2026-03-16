@@ -1,4 +1,4 @@
-# Zotero → Obsidian Metadata Mapping (RU/EN)
+# NIX_Zotero_Obsidian_Metadata_Mapping (RU/EN)
 
 ## RU: Зачем этот репозиторий
 Этот репозиторий — результат прикладного исследования: собрать **максимально полный и проверяемый** список метаданных, которые можно использовать при импорте литературы из Zotero в Obsidian (в контексте шаблонов для плагина Zotero Integration).
