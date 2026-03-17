@@ -74,6 +74,22 @@ Template variables available in the plugin come from **two different sources**:
 
 ---
 
+## RU: Справочные таблицы
+
+| Документ | Что содержит | Источник |
+|----------|-------------|----------|
+| [`docs/zotero_api_keypath_matrix.md`](docs/zotero_api_keypath_matrix.md) | Матрица 38 itemTypes × 133 keyPaths из Zotero Web API | `/items/new` → `Zotero_all_items_request.py` |
+| [`docs/plugin_template_variables.md`](docs/plugin_template_variables.md) | Полный каталог переменных контекста шаблона плагина Zotero Integration | Статический анализ `main.js` |
+
+## EN: Reference tables
+
+| Document | Contents | Source |
+|----------|----------|--------|
+| [`docs/zotero_api_keypath_matrix.md`](docs/zotero_api_keypath_matrix.md) | Matrix of 38 itemTypes × 133 keyPaths from Zotero Web API | `/items/new` → `Zotero_all_items_request.py` |
+| [`docs/plugin_template_variables.md`](docs/plugin_template_variables.md) | Complete catalog of Zotero Integration plugin template context variables | Static analysis of `main.js` |
+
+---
+
 ## RU: Структура репозитория
 
 ### Скрипты
