@@ -1,5 +1,5 @@
 """
-RU: Р”РµС‚РµСЂРјРёРЅРёСЂРѕРІР°РЅРЅС‹Р№ СЃР±РѕСЂ СЃС…РµРјС‹ РјРµС‚Р°РґР°РЅРЅС‹С… Zotero Р±РµР· СЂСѓС‡РЅРѕРіРѕ РІС‹Р±РѕСЂР° РІ UI.
+RU: Детерминированный сбор схемы метаданных Zotero без ручного выбора в UI.
 EN: Deterministic Zotero metadata schema collection without manual UI selection.
 """
 
@@ -143,7 +143,7 @@ def fetch_all_items(
     out: List[Dict[str, Any]] = []
     start = 0
     while True:
-        # RU: РџРѕСЃС‚СЂР°РЅРёС‡РЅС‹Р№ РїСЂРѕС…РѕРґ РїРѕ Р±РёР±Р»РёРѕС‚РµРєРµ.
+        # RU: Постраничный проход по библиотеке.
         # EN: Paginated library scan.
         params: Dict[str, Any] = {"start": start, "limit": page_limit}
         if include_trashed:
@@ -215,8 +215,8 @@ def collect_union(per_type: Dict[str, Set[str]]) -> List[str]:
 def main() -> None:
     parser = argparse.ArgumentParser(
         description=(
-            "RU: Р”РµС‚РµСЂРјРёРЅРёСЂРѕРІР°РЅРЅРѕ СЃС‚СЂРѕРёС‚ СЃС…РµРјСѓ Zotero РёР· РїРѕР»РЅРѕРіРѕ СЃРєР°РЅР° Р±РёР±Р»РёРѕС‚РµРєРё + /items/new "
-            "(Р±РµР· СЂСѓС‡РЅРѕРіРѕ РІС‹Р±РѕСЂР° CAYW). "
+            "RU: Детерминированно строит схему Zotero из полного скана библиотеки + /items/new "
+            "(без ручного выбора CAYW). "
             "EN: Builds deterministic Zotero schema from full library scan + /items/new templates "
             "(no manual CAYW selection)."
         )
@@ -230,7 +230,7 @@ def main() -> None:
         "--fail-on-denied",
         action="store_true",
         help=(
-            "RU: Р—Р°РІРµСЂС€Р°С‚СЊ РІС‹РїРѕР»РЅРµРЅРёРµ СЃ РѕС€РёР±РєРѕР№, РµСЃР»Рё С…РѕС‚СЏ Р±С‹ РѕРґРЅР° Р±РёР±Р»РёРѕС‚РµРєР° РЅРµРґРѕСЃС‚СѓРїРЅР° (403). "
+            "RU: Завершать выполнение с ошибкой, если хотя бы одна библиотека недоступна (403). "
             "EN: Exit with error if at least one library is inaccessible (403)."
         ),
     )
@@ -239,7 +239,7 @@ def main() -> None:
 
     if not args.api_key:
         raise SystemExit(
-            "RU: РџРµСЂРµРґР°Р№ --api-key РёР»Рё СѓСЃС‚Р°РЅРѕРІРё ZOTERO_API_KEY. "
+            "RU: Передай --api-key или установи ZOTERO_API_KEY. "
             "EN: Provide --api-key or set ZOTERO_API_KEY."
         )
 
@@ -282,7 +282,7 @@ def main() -> None:
     if args.fail_on_denied and denied_libraries:
         denied = ", ".join(denied_libraries)
         raise SystemExit(
-            "RU: РћР±РЅР°СЂСѓР¶РµРЅС‹ РЅРµРґРѕСЃС‚СѓРїРЅС‹Рµ Р±РёР±Р»РёРѕС‚РµРєРё (403): "
+            "RU: Обнаружены недоступные библиотеки (403): "
             f"{denied}. "
             "EN: Inaccessible libraries detected (403): "
             f"{denied}."
@@ -321,8 +321,8 @@ def main() -> None:
             "perItemTypeKeyPaths": {k: sorted(v) for k, v in sorted(template_per.items())},
         },
         "note": (
-            "RU: РС‚РѕРіРѕРІР°СЏ СЃС…РµРјР° = РЅР°Р±Р»СЋРґР°РµРјС‹Рµ РєР»СЋС‡Рё РёР· РІСЃРµС… РґРѕСЃС‚СѓРїРЅС‹С… Р±РёР±Р»РёРѕС‚РµРє + РіР°СЂР°РЅС‚РёСЂРѕРІР°РЅРЅС‹Рµ "
-            "СЂРµРґР°РєС‚РёСЂСѓРµРјС‹Рµ РєР»СЋС‡Рё РёР· /items/new РґР»СЏ РєР°Р¶РґРѕРіРѕ itemType. "
+            "RU: Итоговая схема = наблюдаемые ключи из всех доступных библиотек + гарантированные "
+            "редактируемые ключи из /items/new для каждого itemType. "
             "EN: Merged schema = observed keys from all accessible libraries + guaranteed editable "
             "keys from /items/new for each itemType."
         ),
